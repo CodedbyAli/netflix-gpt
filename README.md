@@ -2,6 +2,15 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+# Netlfix GPT Project Planning
+
+- Create React App
+- Configured TailwindCSS
+
+
+# Netflix GPT Features
+
+
 ## Available Scripts
 
 In the project directory, you can run:
