@@ -1,5 +1,7 @@
 import { useRef, useState } from "react";
 import { checkFormValidation } from "../utils/validation";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../utils/firebase";
 
 
 const Login = () => {
@@ -18,6 +20,35 @@ const Login = () => {
         // Checking Form Validation
         const message = checkFormValidation(email.current.value,password.current.value);
         setErrorMessage(message);
+        if(message) return;
+
+        if(!isSigninForm){
+
+            createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
+            .then((userCredential) => {
+                // Signed up 
+                const user = userCredential.user;
+                console.log("User: ", user);
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                setErrorMessage(errorCode+"-"+errorMessage);
+            });
+
+        }else{
+            signInWithEmailAndPassword(auth, email.current.value,password.current.value)
+                .then((userCredential) => {
+                    // Signed in 
+                    const user = userCredential.user;
+                    console.log(user);
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    setErrorMessage(errorCode + '-' +errorMessage);
+                });
+        }
 
     }
 
