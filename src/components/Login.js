@@ -1,12 +1,24 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { checkFormValidation } from "../utils/validation";
 
 
 const Login = () => {
 
     const [isSigninForm,setIsSigninForm] = useState(true);
+    const [errorMessage,setErrorMessage] = useState(null);
+
+    const email = useRef(null);
+    const password = useRef(null);
 
     const toggleSignInForm = () => {
         setIsSigninForm(!isSigninForm);
+    }
+
+    const handleSubmitClick = () => {
+        // Checking Form Validation
+        const message = checkFormValidation(email.current.value,password.current.value);
+        setErrorMessage(message);
+
     }
 
     return (
@@ -28,13 +40,14 @@ const Login = () => {
                   <div className="bg-black rounded-lg w-4/12 bg-opacity-60">
                               <div className="p-16">
                                   <h1 className="text-white text-3xl font-bold pb-4">{isSigninForm ? 'Sign In' : 'Sign Up'}</h1>
-                                  <form>
-                                      {!isSigninForm && <input type="text" placeholder="Email or phone number" className="p-4 bg-black my-4 rounded-sm text-white w-full block border border-zinc-600 bg-opacity-80" />}
-                                      <input type="text" placeholder="Email or phone number" className="p-4 bg-black my-4 rounded-sm text-white w-full block border border-zinc-600 bg-opacity-80 bg-[rgba(0,0,0,0.85)]" />
-                                      <input type="text" placeholder="Password" className="p-4 bg-black my-4 rounded-sm w-full block border border-zinc-600 bg-opacity-85 bg-[rgba(0,0,0,0.85)]" />
-                                      <button type="submit" className="text-white bg-red-600 font-semibold rounded-sm w-full p-2 mt-4">{isSigninForm ? 'Sign In' : 'Sign Up'}</button>
+                                  <form onSubmit={(e) => e.preventDefault()}>
+                                      {!isSigninForm && <input type="text" placeholder="Enter Full Name" className="p-4 bg-black my-4 rounded-sm text-white w-full block border border-zinc-600 bg-opacity-80" />}
+                                      <input ref={email} type="text" placeholder="Email or phone number" className="p-4 bg-black my-4 rounded-sm text-white w-full block border border-zinc-600 bg-opacity-80 bg-[rgba(0,0,0,0.85)]" />
+                                      <input ref={password} type="password" placeholder="Password" className="p-4 bg-black text-white my-4 rounded-sm w-full block border border-zinc-600 bg-opacity-85" />
+                                      <p className="text-red-500 font-semibold">{errorMessage}</p>
+                                      <button onClick={handleSubmitClick} className="text-white bg-red-600 font-semibold rounded-sm w-full p-2 mt-4">{isSigninForm ? 'Sign In' : 'Sign Up'}</button>
                                       <h3 className="text-zinc-400 my-4 text-center">OR</h3>
-                                      <button type="submit" className="bg-white text-white font-semibold rounded-sm w-full p-2 bg-opacity-30">{isSigninForm ? 'Use a Sign-In Code' : 'Use a Sign-In Code'}</button>
+                                      <button className="bg-white text-white font-semibold rounded-sm w-full p-2 bg-opacity-30">{isSigninForm ? 'Use a Sign-In Code' : 'Use a Sign-In Code'}</button>
                                       {isSigninForm && <div className="flex justify-center my-4"><a href="/" className="text-white">Forgot Password?</a></div>}
                                       <div className="flex items-center space-x-2 my-4">
                                           <input type="checkbox" id="rememberMe" className="h-5 w-5 border-2 border-zinc-600 rounded-sm focus:ring-0"/>
