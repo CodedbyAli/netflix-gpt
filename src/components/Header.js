@@ -23,7 +23,7 @@ const Header = () => {
     }
 
     useEffect(()=>{
-        onAuthStateChanged(auth, (user) => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
               const {uid, email, displayName} = user;
             //   console.log("USER DATA: ", email);
@@ -35,6 +35,7 @@ const Header = () => {
               navigate('/');
             }
           });
+          return () => unsubscribe();
     },[]);
 
   return (
