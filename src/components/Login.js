@@ -1,18 +1,21 @@
 import { useRef, useState } from "react";
 import { checkFormValidation } from "../utils/validation";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
 
 
 const Login = () => {
 
     const navigate = useNavigate();
-
+    const dispatch = useDispatch();
     const [isSigninForm,setIsSigninForm] = useState(true);
     const [errorMessage,setErrorMessage] = useState(null);
 
     const email = useRef(null);
+    const name = useRef(null);
     const password = useRef(null);
 
     const toggleSignInForm = () => {
@@ -31,13 +34,24 @@ const Login = () => {
             .then((userCredential) => {
                 // Signed up 
                 const user = userCredential.user;
+                // Update User Information
+                updateProfile(user, {
+                    displayName: name.current.value
+                    // photoURL: "https://example.com/jane-q-user/profile.jpg"
+                  }).then(() => {
+                    // Profile updated!
+                    const {uid,email,displayName} = auth.currentUser;
+                    dispatch(addUser({ uid: uid, email: email, displayName: displayName }))
+                    navigate('/browse');
+                  }).catch((error) => {
+                    setErrorMessage(error);
+                  });
                 console.log("User: ", user);
-                navigate('/browse');
             })
             .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
-                setErrorMessage(errorCode+"-"+errorMessage);
+                setErrorMessage(`${errorCode} - ${errorMessage}`);
             });
 
         }else{
@@ -51,7 +65,7 @@ const Login = () => {
                 .catch((error) => {
                     const errorCode = error.code;
                     const errorMessage = error.message;
-                    setErrorMessage(errorCode + '-' +errorMessage);
+                    setErrorMessage(`${errorCode} - ${errorMessage}`);
                 });
         }
 
@@ -77,7 +91,7 @@ const Login = () => {
                               <div className="p-16">
                                   <h1 className="text-white text-3xl font-bold pb-4">{isSigninForm ? 'Sign In' : 'Sign Up'}</h1>
                                   <form onSubmit={(e) => e.preventDefault()}>
-                                      {!isSigninForm && <input type="text" placeholder="Enter Full Name" className="p-4 bg-black my-4 rounded-sm text-white w-full block border border-zinc-600 bg-opacity-80" />}
+                                      {!isSigninForm && <input ref={name} type="text" placeholder="Enter Full Name" className="p-4 bg-black my-4 rounded-sm text-white w-full block border border-zinc-600 bg-opacity-80" />}
                                       <input ref={email} type="text" placeholder="Email or phone number" className="p-4 bg-black my-4 rounded-sm text-white w-full block border border-zinc-600 bg-opacity-80 bg-[rgba(0,0,0,0.85)]" />
                                       <input ref={password} type="password" placeholder="Password" className="p-4 bg-black text-white my-4 rounded-sm w-full block border border-zinc-600 bg-opacity-85" />
                                       <p className="text-red-500 font-semibold">{errorMessage}</p>
