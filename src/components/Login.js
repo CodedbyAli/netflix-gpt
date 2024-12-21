@@ -5,6 +5,7 @@ import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
+import Header from "./Header";
 
 
 const Login = () => {
@@ -42,11 +43,9 @@ const Login = () => {
                     // Profile updated!
                     const {uid,email,displayName} = auth.currentUser;
                     dispatch(addUser({ uid: uid, email: email, displayName: displayName }))
-                    navigate('/browse');
                   }).catch((error) => {
                     setErrorMessage(error);
                   });
-                console.log("User: ", user);
             })
             .catch((error) => {
                 const errorCode = error.code;
@@ -60,7 +59,6 @@ const Login = () => {
                     // Signed in 
                     const user = userCredential.user;
                     console.log(user);
-                    navigate('/browse');
                 })
                 .catch((error) => {
                     const errorCode = error.code;
@@ -81,8 +79,9 @@ const Login = () => {
           <div className="absolute top-0 left-0 w-full h-full bg-black opacity-60"></div>
   
           {/* Netflix Logo */}
-          <div className="absolute h-52 w-52 top-0 left-8 z-20">
-            <img src="Netflix_Logo_PMS.png" alt="Netflix logo"/>
+          <div className="absolute w-full z-20">
+            {/* <img src="Netflix_Logo_PMS.png" alt="Netflix logo"/> */}
+            <Header/>
           </div>
 
           {/* Login Component */}
