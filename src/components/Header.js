@@ -41,13 +41,13 @@ const Header = () => {
   return (
     <>
         {/* <button onClick={handleSignOut}>Sign Out</button> */}
-        <div className="bg-gradient-to-b from-black">
-            <div className="flex justify-between w-full bg-black/50">
+        <div className="bg-gradient-to-b from-black/40">
+              <div className="flex justify-between max-w-[90rem] mx-auto">
                 <div className="flex items-center">
-                    <img src="Netflix_Logo_PMS.png" alt="Netflix logo" className="ml-12 h-auto w-32 object-contain"/>
+                    <img src="Netflix_Logo_PMS.png" alt="Netflix logo" className="h-auto w-32 object-contain -ml-3"/>
                     {user && <Navbar />}
                 </div>
-                {user && <div className="flex items-center mr-10 space-x-4">
+                {user && <div className="flex items-center space-x-4">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 text-white">
                         <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                     </svg>
