@@ -16,6 +16,7 @@ const SecondaryContainer = () => {
     <>
       {/* Images container */}
       <div className="bg-[#141414] w-full">
+
         {/* Now Playing Movies */}
         <div className="max-w-[90rem] mx-auto py-6 h-screen">
           <h3 className="relative -top-48 text-white text-xl font-bold z-10">
@@ -25,7 +26,6 @@ const SecondaryContainer = () => {
             <Swiper
               slidesPerView={9}
               spaceBetween={15}
-              // mousewheel={false}
               navigation={{
                 nextEl: ".swiper-button-next-custom",
                 prevEl: ".swiper-button-prev-custom",

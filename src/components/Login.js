@@ -10,7 +10,6 @@ import Header from "./Header";
 
 const Login = () => {
 
-    const navigate = useNavigate();
     const dispatch = useDispatch();
     const [isSigninForm,setIsSigninForm] = useState(true);
     const [errorMessage,setErrorMessage] = useState(null);
