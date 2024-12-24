@@ -7,7 +7,7 @@ const MainContainer = () => {
     const movies = useSelector(store => store?.movies?.nowPlayingMovies);
     if(!movies) return;
     
-    const {title,overview,id} = movies[4];
+    const {title,overview,id} = movies[6];
 
   return (
     <div className="relative h-screen overflow-hidden">
